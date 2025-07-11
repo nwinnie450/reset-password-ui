@@ -2,15 +2,25 @@
 <html>
 <head>
   <title>Reset Password</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    .error { color: red; display: none; }
+  </style>
 </head>
 <body>
   <h2>Reset Your Password</h2>
-  <form action="https://n8n.yourdomain.com/webhook/reset-password" method="POST">
+
+  <form id="resetForm" action="https://n8n.yourdomain.com/webhook/reset-password" method="POST">
     <input type="hidden" name="email" id="email" />
     <input type="hidden" name="token" id="token" />
 
-    <label for="new_password">New Password:</label>
-    <input type="password" name="new_password" id="new_password" required />
+    <label for="new_password">New Password:</label><br>
+    <input type="password" name="new_password" id="new_password" required /><br><br>
+
+    <label for="confirm_password">Confirm Password:</label><br>
+    <input type="password" id="confirm_password" required /><br><br>
+
+    <p class="error" id="error_msg">Passwords do not match.</p>
 
     <button type="submit">Reset Password</button>
   </form>
@@ -19,6 +29,20 @@
     const params = new URLSearchParams(window.location.search);
     document.getElementById('email').value = params.get('email') || '';
     document.getElementById('token').value = params.get('token') || '';
+
+    const form = document.getElementById('resetForm');
+    const newPwd = document.getElementById('new_password');
+    const confirmPwd = document.getElementById('confirm_password');
+    const errorMsg = document.getElementById('error_msg');
+
+    form.addEventListener('submit', function(event) {
+      if (newPwd.value !== confirmPwd.value) {
+        event.preventDefault();
+        errorMsg.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
