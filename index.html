@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reset Password</title>
+</head>
+<body>
+  <h2>Reset Your Password</h2>
+  <form action="https://n8n.yourdomain.com/webhook/reset-password" method="POST">
+    <input type="hidden" name="email" id="email" />
+    <input type="hidden" name="token" id="token" />
+
+    <label for="new_password">New Password:</label>
+    <input type="password" name="new_password" id="new_password" required />
+
+    <button type="submit">Reset Password</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('email').value = params.get('email') || '';
+    document.getElementById('token').value = params.get('token') || '';
+  </script>
+</body>
+</html>
